@@ -26,6 +26,12 @@ and then you can be guided through setting up the CLI to access your account:
 scw init
 ```
 
+it's recommended to set your default zone to `fr-par-2`, since the power sources used there are a bit more eco-friendly than `fr-par-1`.
+
+```sh
+scw config set default-zone=fr-par-2
+```
+
 
 ## Running Commands in Parallel with tmux
 

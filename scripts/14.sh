@@ -1,5 +1,5 @@
 for server_id in $(scw instance server list --output json | jq -r '.[].id'); do
-  scw instance server terminate ${server_id}
+  scw instance server terminate ${server_id} with-ip=true with-block=true
 done
 
 LOCAL_PRIVATE_SSH_KEY=kubernetes.ed25519
@@ -19,7 +19,7 @@ else
 fi
 
 for load_balancer_id in $(scw lb lb list --output json | jq -r '.[].id'); do
-  scw lb lb delete $load_balancer_id
+  scw lb lb delete $load_balancer_id release-ip=true
 done
 
 echo "waiting 10 seconds for the security group associations to clear out..."

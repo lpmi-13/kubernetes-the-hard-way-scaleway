@@ -46,6 +46,7 @@ WORKER_SECURITY_GROUP_ID=$(scw instance security-group create name=worker-ingres
 
 echo -e "waiting 5 seconds for the backend to be ready...\n\n"
 
+scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=TCP direction=inbound action=accept dest-port-from=22 dest-port-to=22
 
 scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=TCP direction=inbound action=accept ip-range=10.240.0.0/24
 

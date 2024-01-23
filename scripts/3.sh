@@ -52,9 +52,9 @@ scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP
 
 scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=UDP direction=inbound action=accept ip-range=10.240.0.0/24
 
-scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=TCP direction=inbound action=accept ip-range=10.200.0.0/24
+scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=TCP direction=inbound action=accept ip-range=10.200.0.0/16
 
-scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=UDP direction=inbound action=accept ip-range=10.200.0.0/24
+scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=UDP direction=inbound action=accept ip-range=10.200.0.0/16
 
 ssh-keygen -t ed25519 -o -a 100 -f kubernetes.ed25519 -N ""
 

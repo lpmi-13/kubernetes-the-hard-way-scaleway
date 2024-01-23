@@ -208,7 +208,7 @@ BACKEND_ID=$(scw lb backend create \
 And we'll attach all the controller nodes to the backend for the loadbalancer using their IP addresses.
 
 ```sh
-for server_ip in $(scw instance server list tags.0=controller --output json | jq -r '.[].id'); do
+for server_ip in $(scw ipam ip list resource-name=controller is-ipv6=false --output json | jq -r '.[].address' | cut -d / -f1); do
   scw lb backend add-servers $BACKEND_ID server-ip.0=$server_ip
 done
 ```

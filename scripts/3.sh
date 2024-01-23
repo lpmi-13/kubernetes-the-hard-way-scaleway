@@ -108,7 +108,7 @@ BACKEND_ID=$(scw lb backend create \
 echo -e "waiting 5 seconds for the backend to be ready...\n\n"
 sleep 5
 
-for server_ip in $(scw instance server list tags.0=controller --output json | jq -r '.[].private_ip'); do
+for server_ip in $(scw ipam ip list resource-name=controller is-ipv6=false --output json | jq -r '.[].address' | cut -d / -f1); do
   scw lb backend add-servers $BACKEND_ID server-ip.0=$server_ip
 done
 

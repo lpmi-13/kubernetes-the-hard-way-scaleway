@@ -22,7 +22,7 @@ EOF
 
 Now, we copy this file to each of the controllers so we can use it once we're setting up etcd.
 
-```
+```sh
 for instance in controller-1 controller-2 controller-3; do
   external_ip=$(scw instance server list \
     name=${instance} \
@@ -36,7 +36,7 @@ done
 
 The rest of the commands in this lab must be run on each controller instance: `controller-1`, `controller-2`, and `controller-3`. Login to each controller instance using the `ssh` command. Example:
 
-```
+```sh
 for instance in controller-1 controller-2 controller-3; do
   external_ip=$(scw instance server list \
     name=${instance} \
@@ -58,21 +58,21 @@ Now ssh into each one of the IP addresses received in last step.
 
 Download the official etcd release binaries from the [coreos/etcd](https://github.com/coreos/etcd) GitHub project:
 
-```
+```sh
 wget -q --show-progress --https-only --timestamping \
   "https://github.com/etcd-io/etcd/releases/download/v3.3.18/etcd-v3.3.18-linux-amd64.tar.gz"
 ```
 
 Extract and install the `etcd` server and the `etcdctl` command line utility:
 
-```
+```sh
 tar -xvf etcd-v3.3.18-linux-amd64.tar.gz
 sudo mv etcd-v3.3.18-linux-amd64/etcd* /usr/local/bin/
 ```
 
 ### Configure the etcd Server
 
-```
+```sh
 sudo mkdir -p /etc/etcd /var/lib/etcd
 sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/
 ```
@@ -81,13 +81,13 @@ The instance internal IP address will be used to serve client requests and commu
 
 > it would be nice if scaleway had some sort of metadata service like AWS, but this piped command should work
 
-```
+```sh
 INTERNAL_IP=$(ip a | grep "10.240.0" | awk '{print $2}' | cut -d '/' -f1)
 ```
 
 And for the rest of the controller private IPs, we can grab the values from the `private_ip_mappings` file we copied in earlier:
 
-```
+```sh
 controller_1_private_ip=$(grep controller_1 private_ip_mappings | awk '{print $2}')
 controller_2_private_ip=$(grep controller_2 private_ip_mappings | awk '{print $2}')
 controller_3_private_ip=$(grep controller_3 private_ip_mappings | awk '{print $2}')
@@ -95,7 +95,7 @@ controller_3_private_ip=$(grep controller_3 private_ip_mappings | awk '{print $2
 
 Create the `etcd.service` systemd unit file:
 
-```
+```sh
 cat <<EOF | sudo tee /etc/systemd/system/etcd.service
 [Unit]
 Description=etcd
@@ -130,7 +130,7 @@ EOF
 
 ### Start the etcd Server
 
-```
+```sh
 sudo systemctl daemon-reload
 sudo systemctl enable etcd
 sudo systemctl start etcd
@@ -142,7 +142,7 @@ sudo systemctl start etcd
 
 List the etcd cluster members:
 
-```
+```sh
 sudo ETCDCTL_API=3 etcdctl member list \
   --endpoints=https://127.0.0.1:2379 \
   --cacert=/etc/etcd/ca.pem \
@@ -152,7 +152,7 @@ sudo ETCDCTL_API=3 etcdctl member list \
 
 > output
 
-```
+```sh
 19d579b62edebc85, started, controller-2, https://10.240.0.4:2380, https://10.240.0.4:2379
 3c2bc8e73d7699f6, started, controller-1, https://10.240.0.3:2380, https://10.240.0.3:2379
 fd6c0c301abe1480, started, controller-3, https://10.240.0.5:2380, https://10.240.0.5:2379

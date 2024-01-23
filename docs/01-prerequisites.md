@@ -16,13 +16,13 @@ The current walkthrough was done with version 2.26.0
 
 Verify the CLI version using:
 
-```
+```sh
 scw version
 ```
 
 and then you can be guided through setting up the CLI to access your account:
 
-```
+```sh
 scw init
 ```
 

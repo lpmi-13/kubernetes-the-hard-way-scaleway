@@ -8,7 +8,7 @@ In this section you will provision a Certificate Authority that can be used to g
 
 Generate the CA configuration file, certificate, and private key:
 
-```
+```sh
 cat > ca-config.json <<EOF
 {
   "signing": {
@@ -49,7 +49,7 @@ cfssl gencert -initca ca-csr.json | cfssljson -bare ca
 
 Results:
 
-```
+```sh
 ca-key.pem
 ca.pem
 ```
@@ -62,7 +62,7 @@ In this section you will generate client and server certificates for each Kubern
 
 Generate the `admin` client certificate and private key:
 
-```
+```sh
 cat > admin-csr.json <<EOF
 {
   "CN": "admin",
@@ -92,7 +92,7 @@ cfssl gencert \
 
 Results:
 
-```
+```sh
 admin-key.pem
 admin.pem
 ```
@@ -103,7 +103,7 @@ Kubernetes uses a [special-purpose authorization mode](https://kubernetes.io/doc
 
 Generate a certificate and private key for each Kubernetes worker node:
 
-```
+```sh
 for i in 1 2 3; do
   instance="worker-${i}"
   instance_hostname="worker-${i}"
@@ -146,7 +146,7 @@ done
 
 Results:
 
-```
+```sh
 worker-1-key.pem
 worker-1.pem
 worker-2-key.pem
@@ -159,7 +159,7 @@ worker-3.pem
 
 Generate the `kube-controller-manager` client certificate and private key:
 
-```
+```sh
 cat > kube-controller-manager-csr.json <<EOF
 {
   "CN": "system:kube-controller-manager",
@@ -189,7 +189,7 @@ cfssl gencert \
 
 Results:
 
-```
+```sh
 kube-controller-manager-key.pem
 kube-controller-manager.pem
 ```
@@ -199,7 +199,7 @@ kube-controller-manager.pem
 
 Generate the `kube-proxy` client certificate and private key:
 
-```
+```sh
 cat > kube-proxy-csr.json <<EOF
 {
   "CN": "system:kube-proxy",
@@ -229,7 +229,7 @@ cfssl gencert \
 
 Results:
 
-```
+```sh
 kube-proxy-key.pem
 kube-proxy.pem
 ```
@@ -238,7 +238,7 @@ kube-proxy.pem
 
 Generate the `kube-scheduler` client certificate and private key:
 
-```
+```sh
 cat > kube-scheduler-csr.json <<EOF
 {
   "CN": "system:kube-scheduler",
@@ -269,7 +269,7 @@ cfssl gencert \
 
 Results:
 
-```
+```sh
 kube-scheduler-key.pem
 kube-scheduler.pem
 ```
@@ -289,7 +289,7 @@ controller_3_private_ip=$(scw ipam ip list resource-name=controller-3 is-ipv6=fa
 
 Generate the Kubernetes API Server certificate and private key:
 
-```
+```sh
 cat > kubernetes-csr.json <<EOF
 {
   "CN": "kubernetes",
@@ -322,7 +322,7 @@ cfssl gencert \
 
 Results:
 
-```
+```sh
 kubernetes-key.pem
 kubernetes.pem
 ```
@@ -333,7 +333,7 @@ The Kubernetes Controller Manager leverages a key pair to generate and sign serv
 
 Generate the `service-account` certificate and private key:
 
-```
+```sh
 cat > service-account-csr.json <<EOF
 {
   "CN": "service-accounts",
@@ -364,7 +364,7 @@ cfssl gencert \
 
 Results:
 
-```
+```sh
 service-account-key.pem
 service-account.pem
 ```
@@ -374,7 +374,7 @@ service-account.pem
 
 Copy the appropriate certificates and private keys to each worker instance:
 
-```
+```sh
 for instance in worker-1 worker-2 worker-3; do
   external_ip=$(scw instance server list \
     name=${instance} \
@@ -386,7 +386,7 @@ done
 
 Copy the appropriate certificates and private keys to each controller instance:
 
-```
+```sh
 for instance in controller-1 controller-2 controller-3; do
   external_ip=$(scw instance server list \
     name=${instance} \

@@ -134,7 +134,7 @@ scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP
 
 ### SSH Key
 
-```
+```sh
 ssh-keygen -t ed25519 -o -a 100 -f kubernetes.ed25519
 ```
 

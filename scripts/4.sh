@@ -257,8 +257,8 @@ cfssl gencert \
   -profile=kubernetes \
   service-account-csr.json | cfssljson -bare service-account
 
-echo -e "waiting for another 10 seconds to ensure the servers are booted up and ready to accept SSH connections...\n\n"
-sleep 10
+echo -e "waiting for another 20 seconds to ensure the servers are booted up and ready to accept SSH connections...\n\n"
+sleep 20
 
 for instance in controller-1 controller-2 controller-3; do
   external_ip=$(scw instance server list \

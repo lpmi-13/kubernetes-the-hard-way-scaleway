@@ -38,3 +38,8 @@ scw vpc vpc delete $VPC_ID
 
 echo "cleaning up local *.{csr,json,kubeconfig,pem,yaml} files"
 rm -rf ./*.{csr,json,kubeconfig,pem,yaml}
+if [ ! -f ./private_ip_mappings ]; then
+  echo "no private ip mappings found"
+else
+  rm private_ip_mappings
+fi

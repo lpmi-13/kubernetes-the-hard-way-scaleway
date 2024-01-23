@@ -257,15 +257,8 @@ cfssl gencert \
   -profile=kubernetes \
   service-account-csr.json | cfssljson -bare service-account
 
-for instance in worker-1 worker-2 worker-3; do
-  external_ip=$(scw instance server list \
-    name=${instance} \
-    --output json | jq -r '.[].public_ip.address')
-
-  scp -i kubernetes.ed25519 \
-    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-    ca.pem ${instance}-key.pem ${instance}.pem root@${external_ip}:~/
-done
+echo -e "waiting for another 10 seconds to ensure the servers are booted up and ready to accept SSH connections...\n\n"
+sleep 10
 
 for instance in controller-1 controller-2 controller-3; do
   external_ip=$(scw instance server list \
@@ -276,4 +269,14 @@ for instance in controller-1 controller-2 controller-3; do
     -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
     ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
     service-account-key.pem service-account.pem root@${external_ip}:~/
+done
+
+for instance in worker-1 worker-2 worker-3; do
+  external_ip=$(scw instance server list \
+    name=${instance} \
+    --output json | jq -r '.[].public_ip.address')
+
+  scp -i kubernetes.ed25519 \
+    -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    ca.pem ${instance}-key.pem ${instance}.pem root@${external_ip}:~/
 done

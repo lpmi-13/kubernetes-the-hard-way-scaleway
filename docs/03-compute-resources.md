@@ -37,8 +37,6 @@ LOAD_BALANCER_ID=$(scw lb lb create \
   --output json | jq -r '.id')
 ```
 
-> We'll use the `fr-par-2` region because the power sources it uses is a bit more eco-friendly.
-
 ```sh
 scw lb private-network attach \
   $LOAD_BALANCER_ID \
@@ -46,6 +44,15 @@ scw lb private-network attach \
 ```
 
 > For some strange reason, the above command requires one positional argument for the load balancer and one named argument for the private network id.
+
+And now we're ready to set the public address for the system.
+
+```sh
+KUBERNETES_PUBLIC_ADDRESS=$(scw lb ip list \
+  --output json | jq -r '.[] | select(.ip_address | contains(".")).ip_address')
+```
+
+> we need to do some minor filtering, since the `scw lb ip list` command also brings back an IPv6 address
 
 ### Firewall rules
 
@@ -91,6 +98,12 @@ And now we can do the same for the worker nodes, but with a slightly different c
 
 ```sh
 $WORKER_SECURITY_GROUP_ID=$(scw instance security-group create name=worker-ingress inbound-default-policy=drop --output json | jq -r '.security_group.id')
+```
+
+We need to allow SSH access in for copying over the certs and stuff.
+
+```sh
+scw instance security-group create-rule security-group-id=$WORKER_SECURITY_GROUP_ID protocol=TCP direction=inbound action=accept dest-port-from=22 dest-port-to=22
 ```
 
 We need internode access from the internal network on TCP

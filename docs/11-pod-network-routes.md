@@ -89,7 +89,7 @@ We also need the controllers to be able to resolve the DNS for `worker-1` to its
 
 > Note: substitute whatever values your workers have for private IP addresses. The values given below are examples and yours are likely to be different.
 
-```
+```sh
 cat <<EOF | sudo tee -a /etc/hosts
 10.240.0.6 worker-1
 10.240.0.7 worker-2

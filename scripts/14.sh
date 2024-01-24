@@ -22,8 +22,8 @@ for load_balancer_id in $(scw lb lb list --output json | jq -r '.[].id'); do
   scw lb lb delete $load_balancer_id release-ip=true
 done
 
-echo "waiting 10 seconds for the security group associations to clear out..."
-sleep 10
+echo "waiting 15 seconds for the security group associations to clear out..."
+sleep 15
 
 for security_group in $(scw instance security-group list project-default=false --output json | jq -r '.[].id'); do
   scw instance security-group delete $security_group

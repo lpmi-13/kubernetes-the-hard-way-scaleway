@@ -180,3 +180,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable containerd kubelet kube-proxy
 sudo systemctl start containerd kubelet kube-proxy
+
+# a quick hack to make sure the bridge is there when the workers try to place containers
+echo "trying to create the bridge manually..."
+ip link add cni0 type bridge

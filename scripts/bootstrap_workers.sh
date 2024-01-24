@@ -28,8 +28,9 @@ sudo mv runc.amd64 runc
 sudo mv kubectl kube-proxy kubelet runc runsc /usr/local/bin/
 sudo tar -xvf crictl-v1.17.0-linux-amd64.tar.gz -C /usr/local/bin/
 sudo tar -xvf cni-plugins-linux-amd64-v0.8.5.tgz -C /opt/cni/bin/
-sudo tar -xvf containerd-1.3.2.linux-amd64.tar.gz -C /
-
+sudo mkdir containerd
+sudo tar -xvf containerd-1.3.2.linux-amd64.tar.gz -C containerd
+sudo mv containerd/bin/* /bin/
 
 WORKER_NUMBER=$(hostname | cut -d '-' -f2)
 

@@ -18,5 +18,3 @@ external_ip=$(scw instance server list \
 ssh -i kubernetes.ed25519 \
   -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
   root@$external_ip "kubectl get nodes --kubeconfig admin.kubeconfig"
-
-# 

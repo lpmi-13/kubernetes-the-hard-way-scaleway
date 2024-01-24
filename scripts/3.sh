@@ -60,7 +60,7 @@ ssh-keygen -t ed25519 -o -a 100 -f kubernetes.ed25519 -N ""
 
 for i in 1 2 3; do
   SERVER_ID=$(scw instance server create \
-    image=ubuntu_jammy \
+    image=ubuntu_focal \
     type=DEV1-S \
     name=controller-${i} \
     tags.0=controller \
@@ -79,7 +79,7 @@ done
 
 for i in 1 2 3; do
   SERVER_ID=$(scw instance server create \
-    image=ubuntu_jammy \
+    image=ubuntu_focal \
     type=DEV1-S \
     name=worker-${i} \
     tags.0=worker \

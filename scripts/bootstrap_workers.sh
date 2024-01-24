@@ -2,7 +2,8 @@
 swapoff -a
 
 sudo apt-get update
-sudo apt-get -y install socat conntrack ipset
+# we might need this to avoid updates to openssh which borks our ssh access
+sudo apt-get -y install socat conntrack ipset --no-install-recommends
 
 wget -q --show-progress --https-only --timestamping \
   https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.17.0/crictl-v1.17.0-linux-amd64.tar.gz \

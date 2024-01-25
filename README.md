@@ -9,7 +9,7 @@ It's a fork of the outstanding [Kubernetes The Hard Way - AWS](https://github.co
 3. containerd v1.3.2
 4. CNI plugins v0.8.5
 5. etcd v3.3.18
-6. scw v2.3.1
+6. scw v2.26.0
 
 # Kubernetes The Hard Way
 

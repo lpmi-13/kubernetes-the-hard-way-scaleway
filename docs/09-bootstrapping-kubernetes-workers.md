@@ -38,7 +38,6 @@ sudo apt-get -y install socat conntrack ipset
 ```sh
 wget -q --show-progress --https-only --timestamping \
   https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.17.0/crictl-v1.17.0-linux-amd64.tar.gz \
-  https://storage.googleapis.com/kubernetes-the-hard-way/runsc \
   https://github.com/opencontainers/runc/releases/download/v1.0.0-rc10/runc.amd64 \
   https://github.com/containernetworking/plugins/releases/download/v0.8.5/cni-plugins-linux-amd64-v0.8.5.tgz \
   https://github.com/containerd/containerd/releases/download/v1.3.2/containerd-1.3.2.linux-amd64.tar.gz \
@@ -62,9 +61,9 @@ sudo mkdir -p \
 Install the worker binaries:
 
 ```sh
-chmod +x kubectl kube-proxy kubelet runc.amd64 runsc
+chmod +x kubectl kube-proxy kubelet runc.amd64
 sudo mv runc.amd64 runc
-sudo mv kubectl kube-proxy kubelet runc runsc /usr/local/bin/
+sudo mv kubectl kube-proxy kubelet runc /usr/local/bin/
 sudo tar -xvf crictl-v1.17.0-linux-amd64.tar.gz -C /usr/local/bin/
 sudo tar -xvf cni-plugins-linux-amd64-v0.8.5.tgz -C /opt/cni/bin/
 sudo tar -xvf containerd-1.3.2.linux-amd64.tar.gz -C /
@@ -130,14 +129,8 @@ cat << EOF | sudo tee /etc/containerd/config.toml
       runtime_type = "io.containerd.runtime.v1.linux"
       runtime_engine = "/usr/local/bin/runc"
       runtime_root = ""
-    [plugins.cri.containerd.untrusted_workload_runtime]
-      runtime_type = "io.containerd.runtime.v1.linux"
-      runtime_engine = "/usr/local/bin/runsc"
-      runtime_root = "/run/containerd/runsc"
 EOF
 ```
-
-> Untrusted workloads will be run using the gVisor (runsc) runtime.
 
 Create the `containerd.service` systemd unit file:
 
